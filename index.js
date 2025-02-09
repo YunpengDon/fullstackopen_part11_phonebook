@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, './frontEnd/dist')))
 app.use(cors())
 app.use(express.json())
 
-morgan.token('body', function (req, _res) { return JSON.stringify(req.body) })
+morgan.token('body', function (req, ) { return JSON.stringify(req.body) })
 // Configure to log messages to console based on the tiny configuration.
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
@@ -126,7 +126,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
   //     response.status(404).end()
   // }
   Person.findByIdAndDelete(request.params.id)
-    .then(_result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))

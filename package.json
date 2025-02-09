@@ -4,11 +4,13 @@
   "description": " Node application that returns a list of phonebook entries",
   "main": "index.js",
   "scripts": {
+    "install-all": "cd frontEnd && npm install && cd .. && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint .", 
-    "build": "cd frontend && npm install && npm run build"
+    "lint:backend": "eslint .",
+    "lint:frontend": "cd frontEnd && npm run lint",
+    "build": "cd frontEnd && npm install && npm run build && cd .."
   },
   "author": "Yunpeng Dong",
   "license": "ISC",
