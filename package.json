@@ -10,7 +10,7 @@
     "dev": "nodemon index.js",
     "lint:backend": "eslint .",
     "lint:frontend": "cd frontEnd && npm run lint",
-    "build": "cd frontEnd && npm install && npm run build && cd .."
+    "build": "cd frontEnd && npm run build && cd .."
   },
   "author": "Yunpeng Dong",
   "license": "ISC",
