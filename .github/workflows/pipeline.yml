@@ -41,10 +41,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: lint
-        run: npm run eslint
+        run: |
+          npm run lint:backend
+          npm run lint:frontend
       - name: build
         run: npm run build
-      - name: unit test
+      - name: api test
         run: npm run test
       - name: end to end test
         run: npm run 'test:e2e'
