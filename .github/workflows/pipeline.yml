@@ -12,6 +12,8 @@ on:
 jobs:
   simple_test:
     runs-on: ubuntu-20.04
+    env: 
+      MANGO_URI_TEST: ${{secrets.MANGO_URI_TEST}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,24 +28,24 @@ jobs:
       - name: api test
         run: npm run test
 
-  # simple_deployment_pipeline:
-  #   runs-on: ubuntu-20.04
-  #   if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20'
-  #     - name: Install dependencies
-  #       run: npm install
-  #     - name: Install Playwright browsers
-  #       run: npx playwright install --with-deps
-  #     - name: lint
-  #       run: npm run eslint
+  deployment_pipeline:
+    runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      # - name: Install Playwright browsers
+      #   run: npx playwright install --with-deps
+      - name: lint
+        run: npm run eslint
       # - name: build
       #   run: npm run build
-      # - name: unit test
-      #   run: npm run test
+      - name: unit test
+        run: npm run test
       # - name: end to end test
       #   run: npm run 'test:e2e'
       # - name: Deploy Success
@@ -68,13 +70,13 @@ jobs:
       #       status: cancelled
       #       title: 'Deploy Cancelled'
 
-  # tag_release:
-  #   needs: [simple_deployment_pipeline]
-  #   runs-on: ubuntu-20.04
-  #   if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Bump version and push tag
-  #       uses: anothrNick/github-tag-action@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  tag_release:
+    needs: [deployment_pipeline]
+    runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
