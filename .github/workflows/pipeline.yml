@@ -23,10 +23,8 @@ jobs:
         run: |
           npm run lint:backend
           npm run lint:frontend
-      # - name: build
-      #   run: npm run build
-      # - name: unit test
-      #   run: npm run test
+      - name: api test
+        run: npm run test
 
   # simple_deployment_pipeline:
   #   runs-on: ubuntu-20.04

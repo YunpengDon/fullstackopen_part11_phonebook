@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const Person = require('./models/note')
+const Person = require('./models/person')
 const app = express()
 const path = require('path')
 
@@ -27,14 +27,6 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-  // const id = Number(request.params.id)
-  // const phone = phonebook.find(person => person.id === id)
-  // if (phone) {
-  //     response.json(phone)
-  // }
-  // else {
-  //     response.status(404).end()
-  // }
   Person.findById(request.params.id)
     .then(person => {
       response.json(person)
@@ -59,13 +51,6 @@ app.post('/api/persons', (request, response, next) => {
     })
   }
 
-  // Reject the request if the name is already exists in the phonebook
-
-  // if (Person.find({name: body.name})) {
-  //     return response.status(404).json({
-  //         error: 'name must be unique'
-  //     })
-  // }
   Person.findOne({ name: body.name }).then(result => {
     if (result){
       return response.status(404).json({
@@ -83,29 +68,10 @@ app.post('/api/persons', (request, response, next) => {
     }
   })
 
-  // use a random big value as id to avoid creating duplicate ids
-  // const newPerson = {
-  //     id: Math.round(Math.random() * 1000000),
-  //     name: body.name,
-  //     number: body.number
-  // }
-
-  // phonebook = phonebook.concat(newPerson)
-  // response.json(newPerson)
-
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  // const id = Number(request.params.id)
-  // const phone = phonebook.find(person => person.id === id)
-  // if (phone) {
-  //     phonebook = phonebook.filter(person => person.id !== id)
-  //     response.json(phonebook)
-  //     response.status(204).end()
-  // }
-  // else {
-  //     response.status(404).end()
-  // }
+
   Person.findByIdAndDelete(request.params.id)
     .then(() => {
       response.status(204).end()
@@ -133,7 +99,11 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 
 
-const PORT = process.env.PORT
-app.listen(PORT,() => {
-  console.log(`Server running on port ${PORT}`)
-} )
+if (require.main === module) {
+  const PORT = process.env.PORT
+  app.listen(PORT,() => {
+    console.log(`Server running on port ${PORT}`)
+  } )
+}
+
+module.exports = app
