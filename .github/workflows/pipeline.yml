@@ -37,7 +37,7 @@ jobs:
         with:
           node-version: '20'
       - name: Install dependencies
-        run: npm install-all
+        run: npm run install-all
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: lint
