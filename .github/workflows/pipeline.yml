@@ -12,6 +12,8 @@ on:
 jobs:
   simple_test:
     runs-on: ubuntu-20.04
+    env: 
+      MANGO_URI_TEST: ${{secrets.MANGO_URI_TEST}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,7 +26,7 @@ jobs:
           npm run lint:backend
           npm run lint:frontend
       - name: api test
-        run: MANGO_URI_TEST=${{secrets.MANGO_URI_TEST}} npm run test
+        run: npm run test
 
   deployment_pipeline:
     runs-on: ubuntu-20.04
