@@ -1,0 +1,36 @@
+name: Health Check
+
+# on:
+#   schedule:
+#     - cron:  '30 8 * * *'
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  helth_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the deployed service URL
+        uses: johnlokerse/website-healthcheck@v2
+        with:
+          # Check the following URLs one by one sequentially
+          web-url: "https://fullstackopen-part11-phonebook-0oj5.onrender.com"
+          scan-for-text: "delete"
+      - name: Success Discord Notify
+        uses: stegzilla/discord-notify@v2
+        if: success()
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Health Check Passed!
+          message: 'URL: https://fullstackopen-part11-phonebook-0oj5.onrender.com'
+      - name: Failure Discord Notify
+        uses: stegzilla/discord-notify@v2
+        if: failure()
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Health Check Failed!
+          message: 'URL: https://fullstackopen-part11-phonebook-0oj5.onrender.com/'
+      
