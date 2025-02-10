@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 const url = process.env.NODE_ENV==='development' ? process.env.MANGO_URI_TEST : process.env.MANGO_URI
-console.log(url)
-
 
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } }
 mongoose.connect(url, clientOptions)
