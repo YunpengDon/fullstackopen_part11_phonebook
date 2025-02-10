@@ -13,7 +13,7 @@ const Filter = (props) => {
 const PersonFormLable = (props) => {
   return(
     <div>
-          {props.lable}: <input value={props.value} onChange={props.onChange}/>
+          {props.lable}: <input value={props.value} onChange={props.onChange} placeholder={props.lable}/>
     </div>
   )
 }

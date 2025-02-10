@@ -19,7 +19,18 @@ module.exports = {
       ],
       'parserOptions': {
         'sourceType': 'script'
-      }
+      },
+    },
+    {
+      'files': ['e2e/**/*.js','playwright.config.js'],
+      'parserOptions': {
+        'ecmaVersion': 'latest',
+        'sourceType': 'module'
+      },
+      'env': {
+        'node': true,
+        'es6': true
+      },
     }
   ],
   'parserOptions': {
